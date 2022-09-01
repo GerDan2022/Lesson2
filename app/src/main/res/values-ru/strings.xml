@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">Калькулятор</string>
+<string name="btntext_7">7</string>
+<string name="btntext_8">8</string>
+<string name="btntext_9">9</string>
+<string name="btntext_x">x</string>
+<string name="btntext_C">C</string>
+<string name="btn_Proc">%</string>
+<string name="btn_div">/</string>
+<string name="btn_4">4</string>
+<string name="btn_5">5</string>
+<string name="btn_6">6</string>
+<string name="btn_Minus">-</string>
+<string name="btn_1">1</string>
+<string name="btn_2">2</string>
+<string name="btn_3">3</string>
+<string name="btn_Plus">+</string>
+<string name="btn_Choice">+/-</string>
+<string name="btn_0">0</string>
+<string name="btn_Dot">.</string>
+<string name="btn_equals">=</string>
+<string name="Correction"><![CDATA[<=]]></string>
+<string name="theme">Тёмная тема</string>
+<string name="CalculatorStyle">CalculatorStyle</string>
+<string name="material_light">material_light</string>
+<string name="material_dark">material_dark</string>
+</resources>

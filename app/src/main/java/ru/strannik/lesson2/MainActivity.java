@@ -2,10 +2,12 @@ package ru.strannik.lesson2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -13,7 +15,7 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private Button button_0;
-    private Button button_Bracket;
+    private Button button_Del;
     private Button button_1;
     private Button button_Proc;
     private Button button_2;
@@ -35,17 +37,95 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText editText;
     private String myText = "0";
+    private Switch switchTheme;
 
+    //имя настроек
+    private static final String NameSharedPreference = "NAME";
+    private static final String AppTheme = "APP_THEME"; //переменная для хранения темы
+    private static final String switchT = "SWT_CHECKED";//переменная для хранения состояния переключателя
+
+
+    //имя параметра в настройках
+    private static final int AppThemeLightCodeStyle = 1;
+    private static final int AppThemeDarkCodeStyle = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initViews();
-        setOnBtnClickListener();
+        setTheme(getAppTheme(R.style.AppThemeLight));     //установка темы
+        setContentView(R.layout.activity_main);           //установка активити
+        initViews();                                      //инициализация кнопок
+        setOnBtnClickListener();                          // события на кнопки
+        ThemeChooser();                                   //смена темы (светлая/тёмная)
+        if (isSwitchThemeChecked())
+            switchTheme.setChecked(true);                 //восстановить состояние переключателя
     }
 
+    //при переключении темы
+    private void ThemeChooser() {
+        final int codeStyle = 1;
+        switchTheme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //сохраним настройки
+                if (switchTheme.isChecked())
+                    setAppTheme(AppThemeDarkCodeStyle);
+                else
+                    setAppTheme(AppThemeLightCodeStyle);
+                recreate();
+            }
+        });
+    }
+
+    //выбор темы
+    private int getAppTheme(int codeStyle) {
+        return codeStyleToStyleID(getCodeStyle(codeStyle));
+    }
+    //отпределение типа темы (светлая/тёмная)
+    private int codeStyleToStyleID(int codeStyle) {
+        switch (codeStyle) {
+            case AppThemeLightCodeStyle:
+                return R.style.AppThemeLight;
+            case AppThemeDarkCodeStyle:
+                return R.style.AppThemeDark;
+        }
+        return R.style.AppThemeLight;
+    }
+
+    //сохранение настроек
+    private void setAppTheme(int codeStyle) {
+        //получение доступа к файлу настроек
+        SharedPreferences sharedPref = getSharedPreferences(NameSharedPreference, MODE_PRIVATE);
+        //получение объекта Эдитор для сохранения настроек
+        SharedPreferences.Editor editor = sharedPref.edit();
+        //указание набора необходимых параметров к сохранению
+        editor.putInt(AppTheme, codeStyle);
+        editor.putBoolean(switchT, switchTheme.isChecked());
+        //сохранение
+        editor.apply();//отложенное, для немедленого commit
+    }
+
+    //чтение настроек, парметр "тема"
+    private int getCodeStyle(int codeStyle) {
+        //получение доступа к файлу настроек
+        SharedPreferences sharedPref = getSharedPreferences(NameSharedPreference, MODE_PRIVATE);
+        return
+                sharedPref.getInt(AppTheme, codeStyle);
+
+    }
+
+    //чтение настроек, параметр статус переключателя
+    private boolean isSwitchThemeChecked() {
+        //получение доступа к файлу настроек
+        SharedPreferences sharedPref = getSharedPreferences(NameSharedPreference, MODE_PRIVATE);
+        return
+                sharedPref.getBoolean(switchT, switchTheme.isChecked());
+
+    }
+
+    //события на кнопки
     private void setOnBtnClickListener() {
+
         button_0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 editText.setText(myText);
             }
         });
+
         button_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
         button_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
         button_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
         button_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
         button_5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
         button_6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
         button_7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,6 +221,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
         button_8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -312,7 +400,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //кнопка удаления последнего символа
-        button_Bracket.setOnClickListener(new View.OnClickListener() {
+        button_Del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //удалим последний символ
@@ -352,7 +440,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //удаление последнего арифм.знака-------------------------------------------------------------------
+    //удаление последнего арифм.знака---------------------------------------------------------------
     private boolean arifmeticSign(String text) {
         switch (text.charAt(text.length() - 1)) {
             case '+':
@@ -365,7 +453,7 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    //проверка возможности установки "точки"------------------------------------------------------------
+    //проверка возможности установки "точки"--------------------------------------------------------
     private boolean isPossibleSetDot(String text) {
         //если "точки" еще нет, то можно ставить
         if (myText.indexOf('.') == -1) return true;
@@ -420,10 +508,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //инициализируем все кнопки-------------------------------------------------------------------------
+    //инициализируем все объекты на экране----------------------------------------------------------
     private void initViews() {
         button_0 = findViewById(R.id.btn0);
-        button_Bracket = findViewById(R.id.btnBracket);
+        button_Del = findViewById(R.id.btnDel);
         button_1 = findViewById(R.id.btn1);
         button_Proc = findViewById(R.id.btnProc);
         button_2 = findViewById(R.id.btn2);
@@ -444,5 +532,7 @@ public class MainActivity extends AppCompatActivity {
         button_Dot = findViewById(R.id.btnDot);
 
         editText = findViewById(R.id.EditText);
+        switchTheme = findViewById(R.id.switchTheme);
+
     }
 }
