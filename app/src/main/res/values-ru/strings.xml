@@ -25,4 +25,5 @@
 <string name="CalculatorStyle">CalculatorStyle</string>
 <string name="material_light">material_light</string>
 <string name="material_dark">material_dark</string>
+<string name="bnt_back">Назад</string>
 </resources>

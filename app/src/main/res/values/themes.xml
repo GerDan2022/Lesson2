@@ -25,6 +25,7 @@
     </style>
 
     <style name="AppThemeLight" parent ="Theme.MaterialComponents.Light">
+        <item name="srcCompat">@drawable/dots</item>
         <item name="colorPrimary" >#008000</item>
         <item name="colorPrimaryDark">#004d00</item>
 
@@ -32,6 +33,7 @@
     </style>>
 
     <style name="AppThemeDark" parent ="Theme.MaterialComponents">
+        <item name="srcCompat">@drawable/dots_night</item>
 
 
     </style>>

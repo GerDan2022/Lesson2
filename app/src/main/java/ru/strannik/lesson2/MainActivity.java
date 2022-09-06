@@ -2,11 +2,13 @@ package ru.strannik.lesson2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Switch;
 
 import java.util.Locale;
@@ -37,18 +39,17 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText editText;
     private String myText = "0";
-    private Switch switchTheme;
+    private ImageButton btn_settings;
 
-    //имя настроек
-    private static final String NameSharedPreference = "NAME";
-    private static final String AppTheme = "APP_THEME"; //переменная для хранения темы
-    private static final String switchT = "SWT_CHECKED";//переменная для хранения состояния переключателя
-
+    private static final String NameSharedPreference = "NAME"; //имя настроек
+    private static final String AppTheme = "APP_THEME";        //переменная для хранения темы
+    private static final int REQUEST_CODE_SETTINGS_ACTIVITY = 1;
 
     //имя параметра в настройках
     private static final int AppThemeLightCodeStyle = 1;
     private static final int AppThemeDarkCodeStyle = 2;
 
+    //при СОЗДАНИИ----------------------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,32 +57,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);           //установка активити
         initViews();                                      //инициализация кнопок
         setOnBtnClickListener();                          // события на кнопки
-        ThemeChooser();                                   //смена темы (светлая/тёмная)
-        if (isSwitchThemeChecked())
-            switchTheme.setChecked(true);                 //восстановить состояние переключателя
     }
 
-    //при переключении темы
-    private void ThemeChooser() {
-        final int codeStyle = 1;
-        switchTheme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //сохраним настройки
-                if (switchTheme.isChecked())
-                    setAppTheme(AppThemeDarkCodeStyle);
-                else
-                    setAppTheme(AppThemeLightCodeStyle);
-                recreate();
-            }
-        });
-    }
-
-    //выбор темы
+    //выбор темы------------------------------------------------------------------------------------
     private int getAppTheme(int codeStyle) {
         return codeStyleToStyleID(getCodeStyle(codeStyle));
     }
-    //отпределение типа темы (светлая/тёмная)
+
+    //отпределение типа темы (светлая/тёмная)-------------------------------------------------------
     private int codeStyleToStyleID(int codeStyle) {
         switch (codeStyle) {
             case AppThemeLightCodeStyle:
@@ -92,20 +75,7 @@ public class MainActivity extends AppCompatActivity {
         return R.style.AppThemeLight;
     }
 
-    //сохранение настроек
-    private void setAppTheme(int codeStyle) {
-        //получение доступа к файлу настроек
-        SharedPreferences sharedPref = getSharedPreferences(NameSharedPreference, MODE_PRIVATE);
-        //получение объекта Эдитор для сохранения настроек
-        SharedPreferences.Editor editor = sharedPref.edit();
-        //указание набора необходимых параметров к сохранению
-        editor.putInt(AppTheme, codeStyle);
-        editor.putBoolean(switchT, switchTheme.isChecked());
-        //сохранение
-        editor.apply();//отложенное, для немедленого commit
-    }
-
-    //чтение настроек, парметр "тема"
+    //чтение настроек, парметр "тема"---------------------------------------------------------------
     private int getCodeStyle(int codeStyle) {
         //получение доступа к файлу настроек
         SharedPreferences sharedPref = getSharedPreferences(NameSharedPreference, MODE_PRIVATE);
@@ -113,19 +83,31 @@ public class MainActivity extends AppCompatActivity {
                 sharedPref.getInt(AppTheme, codeStyle);
 
     }
-
-    //чтение настроек, параметр статус переключателя
-    private boolean isSwitchThemeChecked() {
-        //получение доступа к файлу настроек
-        SharedPreferences sharedPref = getSharedPreferences(NameSharedPreference, MODE_PRIVATE);
-        return
-                sharedPref.getBoolean(switchT, switchTheme.isChecked());
-
+   //обработка результата который вернулся со второй активити---------------------------------------
+    protected void onActivityResult(int requestCode, int resultCode, Intent settingsIntent) {
+        if (requestCode != REQUEST_CODE_SETTINGS_ACTIVITY) {
+            super.onActivityResult(requestCode, resultCode, settingsIntent);
+            return;
+        }
+        if (resultCode == RESULT_OK)
+            recreate();
     }
 
-    //события на кнопки
+    //события на кнопки-----------------------------------------------------------------------------
     private void setOnBtnClickListener() {
 
+        //при нажатии на кнопку Настройки
+        btn_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //подготовим переменную Intent, для старта Активити НАСТРОЕК
+                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                //стартуем Активити НАСТРОЕК с ожиданием ОТВЕТА
+                startActivityForResult(settingsIntent, REQUEST_CODE_SETTINGS_ACTIVITY);
+
+            }
+        });
+        //при нажатии на "0"
         button_0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -531,8 +513,10 @@ public class MainActivity extends AppCompatActivity {
         button_9 = findViewById(R.id.btn9);
         button_Dot = findViewById(R.id.btnDot);
 
+        btn_settings = findViewById(R.id.btn_settings);
+
         editText = findViewById(R.id.EditText);
-        switchTheme = findViewById(R.id.switchTheme);
+        // switchTheme = findViewById(R.id.switchTheme);
 
     }
 }

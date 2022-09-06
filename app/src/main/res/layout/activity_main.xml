@@ -7,50 +7,39 @@
     tools:context=".MainActivity">
 
 
-    <Switch
-        android:id="@+id/switchTheme"
+    <ImageButton
+        android:id="@+id/btn_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        android:background="@null"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/theme"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/switchTheme"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/switchTheme" />
+       android:layout_marginEnd="3dp"/>
 
     <EditText
         android:id="@+id/EditText"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="wrap_content"
         android:editable="false"
         android:textAlignment="viewEnd"
         android:textSize="@dimen/EditText"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout1" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-
+        android:layout_height="90dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
 
         <Button
             android:id="@+id/btnC"
             style="@style/CalculatorStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/btntext_C"
-            app:layout_constraintTop_toBottomOf="@+id/EditText" />
+            android:text="@string/btntext_C" />
+
 
         <Button
             android:id="@+id/btnDel"
@@ -80,9 +69,9 @@
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="90dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout3">
+        app:layout_constraintStart_toStartOf="parent">
 
 
         <Button
@@ -90,8 +79,7 @@
             style="@style/CalculatorStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/btntext_7"
-            app:layout_constraintTop_toBottomOf="@+id/EditText" />
+            android:text="@string/btntext_7" />
 
         <Button
             android:id="@+id/btn8"
@@ -120,9 +108,9 @@
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="90dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout4">
+        app:layout_constraintStart_toStartOf="parent">
 
 
         <Button
@@ -159,9 +147,9 @@
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="90dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout5">
+        app:layout_constraintStart_toStartOf="parent">
 
 
         <Button
@@ -169,8 +157,7 @@
             style="@style/CalculatorStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/btn_1"
-            app:layout_constraintTop_toBottomOf="@+id/EditText" />
+            android:text="@string/btn_1" />
 
         <Button
             android:id="@+id/btn2"
@@ -199,10 +186,8 @@
     <LinearLayout
         android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:layout_marginBottom="15dp"
+        android:layout_height="90dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
 
@@ -212,8 +197,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/btn_Choice"
-            android:textSize="22sp"
-            app:layout_constraintTop_toBottomOf="@+id/EditText" />
+            android:textSize="22sp" />
 
         <Button
             android:id="@+id/btn0"
@@ -239,6 +223,8 @@
 
 
     </LinearLayout>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
